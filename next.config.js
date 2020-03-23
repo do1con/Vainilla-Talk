@@ -1,9 +1,15 @@
-module.exports = {
-  webpack: (config) => {
-    // eslint-disable-next-line no-param-reassign
-    config.node = {
-      fs: 'empty',
-    };
-    return config;
-  },
-};
+const withSass = require('@zeit/next-sass');
+const withCSS = require('@zeit/next-css');
+const withFonts = require('next-fonts');
+
+module.exports = withFonts(
+  withCSS(
+    withSass({
+      enableSvg: true,
+      webpack(config, options) {
+        return config;
+        // eslint-disable-next-line prettier/prettier
+      }
+    })
+  )
+);
