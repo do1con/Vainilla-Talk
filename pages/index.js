@@ -1,6 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
-import Head from '../components/head';
-import Nav from '../components/nav';
 
-export default () => <div>hi.</div>;
+export default () => {
+  return <p>솔직히, 여기서 뭘 해야하는지 잘 모르겠어요. ㅠㅠ.</p>;
+};
