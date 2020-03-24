@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Link from 'next/link';
+import Router from 'next/router';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { beanColor } from '../public/palette';
 import '../public/base.css';
@@ -26,6 +27,7 @@ export default function MainPage() {
   };
   const onClickSignUp = useCallback(() => {
     console.log('click sign up');
+    Router.push('/boardPage');
   }, []);
   return (
     <>

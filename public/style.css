@@ -1,7 +1,7 @@
 .ant-btn {
   margin-right: 8px;
 }
-.ant-checkbox-checked .ant-checkbox-inner .ant-checkbox-input {
+.ant-checkbox-checked .ant-checkbox-inner .ant-checkbox-i {
   background-color: red;
   border-color: red;
 }
