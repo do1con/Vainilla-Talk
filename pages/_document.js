@@ -15,19 +15,6 @@ export default class RootDocument extends Document {
           <meta name="keywords" content="Vanilla Talk, 바닐라톡, 바닐라 톡" />
           <link rel="shortcut icon" href="/images/favicon.ico" />
           <link rel="icon" href="/images/favicon.ico" />
-          {/*           <style global jsx>{`
-            @font-face {
-              font-family: 'bm_jua';
-              font-style: normal;
-              font-weight: 400;
-              src: url('/fonts/BMJUA_otf.otf') format('opentype'),
-                url('/fonts/BMJUA_ttf.ttf') format('truetype');
-            }
-
-            body {
-              font-family: 'bm_jua';
-            }
-          `}</style> */}
         </Head>
         <body>
           <Main />
