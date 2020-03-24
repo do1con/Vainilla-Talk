@@ -1,29 +1,34 @@
 import React from 'react';
-import styled from 'styled-components';
-import { Layout } from 'antd';
 import Head from 'next/head';
-
-const { Header, Footer, Content } = Layout;
+import Link from 'next/link';
+import styled from 'styled-components';
+import { vanillaColor, beanColor } from '../public/palette';
 
 const MainPage = function () {
   return (
     <>
       <Head>
-        <title>Introduce Seongsoo Kim</title>
+        <title>Vanilla Talk!</title>
       </Head>
-      <Layout>
-        <Header>
-          <H1 className="hi">ssKim 안녕하세요 주아</H1>
-        </Header>
-        <Content>dddddd</Content>
-        <Footer>dfsdfsdf</Footer>
-      </Layout>
+      <Container>
+        <H1>Vanilla Talk!</H1>
+      </Container>
     </>
   );
 };
 
 export default MainPage;
 
+const Container = styled.div`
+  width: 100%;
+  height: 100vw;
+  background-color: ${vanillaColor};
+`;
+
 const H1 = styled.h1`
-  font-family: 'bm_jua';
+  text-align: center;
+  font-family: 'bm_hanna_pro';
+  color: ${beanColor};
+  padding-top: 300px;
+  font-size: 2em;
 `;

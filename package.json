@@ -1,7 +1,7 @@
 {
-  "name": "introduce-sskim",
+  "name": "Vanilla-Talk",
   "version": "0.1.0",
-  "description": "introduce me front-end developer Seongsoo Kim",
+  "description": "kakao talk clone",
   "main": "index.js",
   "scripts": {
     "dev": "next",

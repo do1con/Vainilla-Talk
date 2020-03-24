@@ -11,11 +11,11 @@ export default class RootDocument extends Document {
             name="viewport"
             content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no"
           />
-          <meta name="description" content="프론트엔드 개발자 김성수" />
-          <meta name="keywords" content="개발자,리액트 개발자,김성수,프론트엔드" />
+          <meta name="description" content="Kakao Talk 클론 메신저, SNS" />
+          <meta name="keywords" content="Vanilla Talk, 바닐라톡, 바닐라 톡" />
           <link rel="shortcut icon" href="/images/favicon.ico" />
           <link rel="icon" href="/images/favicon.ico" />
-          <style global jsx>{`
+          {/*           <style global jsx>{`
             @font-face {
               font-family: 'bm_jua';
               font-style: normal;
@@ -27,7 +27,7 @@ export default class RootDocument extends Document {
             body {
               font-family: 'bm_jua';
             }
-          `}</style>
+          `}</style> */}
         </Head>
         <body>
           <Main />
