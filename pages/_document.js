@@ -1,5 +1,8 @@
 import React from 'react';
 import Document, { Html, Head, Main, NextScript } from 'next/document';
+import '../public/base.css';
+import '../public/style.css';
+import 'antd/dist/antd.css';
 
 export default class RootDocument extends Document {
   render() {
