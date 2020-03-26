@@ -23,3 +23,6 @@
   content: '';
   clear: both;
 }
+.noresize {
+  resize: none;
+}

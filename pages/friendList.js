@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
@@ -58,10 +59,182 @@ export default function friendList() {
               </Tooltip>
             }
           />
+          <Comment
+            author={<a>Han Solo</a>}
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            className="ant-comment-me"
+            author={<a>Han Solo</a>}
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            author={<a>Han Solo</a>}
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            className="ant-comment-me"
+            author={<a>Han Solo</a>}
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            author={<a>Han Solo</a>}
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            className="ant-comment-me"
+            author={<a>Han Solo</a>}
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            author={<a>Han Solo</a>}
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
+          <Comment
+            className="ant-comment-me"
+            author={<a>Han Solo</a>}
+            content={
+              <Chat>
+                디자인이 세상에서 제일 어려워. 정말정말 긴 문자정말정말 긴 문자정말정말 긴
+                문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자정말정말 긴 문자 정말정말 긴
+                문자정말정말 긴 문자 정말정말 긴 문자
+              </Chat>
+            }
+            avatar={
+              <Avatar
+                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                alt="Han Solo"
+              />
+            }
+            datetime={
+              <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                <span>{moment().fromNow()}</span>
+              </Tooltip>
+            }
+          />
         </ChatArea>
         <InputArea>
           <Form.Item>
-            <TextArea rows={2} />
+            <TextArea rows={2} className="noresize" />
           </Form.Item>
           <Form.Item>
             <Button htmlType="submit" type="primary">
@@ -89,7 +262,7 @@ const ChatArea = styled.div`
   height: 75%;
   position: absolute;
   top: 0px;
-  overflow: hidden;
+  overflow-y: scroll;
 `;
 
 const Chat = styled.p`
