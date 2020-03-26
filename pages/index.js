@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Link from 'next/link';
@@ -10,6 +10,7 @@ import '../public/style.css';
 import 'antd/dist/antd.css';
 
 export default function MainPage() {
+  const [loginRequest, setLoginRequest] = useState(false);
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
@@ -19,7 +20,9 @@ export default function MainPage() {
     labelCol: { span: 3, offset: 12 },
   };
   const onFinish = (values) => {
+    setLoginRequest(true);
     console.log('Success:', values);
+    Router.push('/friendList');
   };
 
   const onFinishFailed = (errorInfo) => {
@@ -27,7 +30,6 @@ export default function MainPage() {
   };
   const onClickSignUp = useCallback(() => {
     console.log('click sign up');
-    Router.push('/boardPage');
   }, []);
   return (
     <>
@@ -66,7 +68,7 @@ export default function MainPage() {
               </Form.Item>
 
               <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loginRequest}>
                   로그인
                 </Button>
                 <Link href="/signUpPage">

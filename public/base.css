@@ -1,33 +1,4 @@
 /*
- 폰트 설정
-*/
-@font-face {
-  font-family: 'bm_jua';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/BMJUA_otf.otf') format('opentype'),
-    url('/fonts/BMJUA_ttf.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'bm_hanna_pro';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/BMHANNAProOTF.otf') format('opentype'),
-    url('/fonts/BMHANNAPro.ttf') format('truetype');
-}
-@font-face {
-  font-family: 'bm_hanna_air';
-  font-style: normal;
-  font-weight: 400;
-  src: url('/fonts/BMHANNAAir_otf.otf') format('opentype'),
-    url('/fonts/BMHANNAAir_ttf.ttf') format('truetype');
-}
-
-body {
-  font-family: 'bm_jua';
-}
-
-/*
  초기화 코드
 */
 /* http://meyerweb.com/eric/tools/css/reset/ 

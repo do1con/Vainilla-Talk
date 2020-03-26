@@ -1,82 +1,55 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Avatar } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import styled from 'styled-components';
+import 'antd/dist/antd.css';
 import '../public/base.css';
 import '../public/style.css';
-import 'antd/dist/antd.css';
 
-const { SubMenu } = Menu;
 const { Header, Content, Sider } = Layout;
 
 export default function BoardLayout(children) {
   return (
     <Layout style={{ height: '100%' }}>
       <Header className="header">
-        <div className="logo" />
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['2']}>
-          <Menu.Item key="1">nav 1</Menu.Item>
-          <Menu.Item key="2">nav 2</Menu.Item>
-          <Menu.Item key="3">nav 3</Menu.Item>
+        <Logo>
+          <H2>Vanilla Talk!</H2>
+        </Logo>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
+          <Menu.Item key="1">채팅</Menu.Item>
+          <Menu.Item key="2">친구 찾기</Menu.Item>
         </Menu>
       </Header>
       <Layout>
         <Sider width={200} className="site-layout-background" breakpoint="lg" collapsedWidth="0">
           <Menu
             mode="inline"
-            defaultSelectedKeys={['1']}
+            defaultSelectedKeys={['open']}
             defaultOpenKeys={['sub1']}
             style={{ height: '100%', borderRight: 0 }}
           >
-            <SubMenu
-              key="sub1"
-              title={
-                <span>
-                  <UserOutlined />
-                  subnav 1
-                </span>
-              }
-            >
-              <Menu.Item key="1">option1</Menu.Item>
-              <Menu.Item key="2">option2</Menu.Item>
-              <Menu.Item key="3">option3</Menu.Item>
-              <Menu.Item key="4">option4</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub2"
-              title={
-                <span>
-                  <LaptopOutlined />
-                  subnav 2
-                </span>
-              }
-            >
-              <Menu.Item key="5">option5</Menu.Item>
-              <Menu.Item key="6">option6</Menu.Item>
-              <Menu.Item key="7">option7</Menu.Item>
-              <Menu.Item key="8">option8</Menu.Item>
-            </SubMenu>
-            <SubMenu
-              key="sub3"
-              title={
-                <span>
-                  <NotificationOutlined />
-                  subnav 3
-                </span>
-              }
-            >
-              <Menu.Item key="9">option9</Menu.Item>
-              <Menu.Item key="10">option10</Menu.Item>
-              <Menu.Item key="11">option11</Menu.Item>
-              <Menu.Item key="12">option12</Menu.Item>
-            </SubMenu>
+            <Menu.Item key="open">
+              <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+              &nbsp;광 장
+            </Menu.Item>
+            <Menu.Item key="1">
+              <Avatar>박</Avatar> 박호석
+            </Menu.Item>
+            <Menu.Item key="2">
+              <Avatar>이</Avatar> 이광민
+            </Menu.Item>
+            <Menu.Item key="3">
+              <Avatar>노</Avatar> 노주선
+            </Menu.Item>
+            <Menu.Item key="4">
+              <Avatar>강</Avatar> 강현우
+            </Menu.Item>
+            <Menu.Item key="5">
+              <Avatar>최</Avatar> 최효훈
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
           <Content
             className="site-layout-background"
             style={{
@@ -92,3 +65,16 @@ export default function BoardLayout(children) {
     </Layout>
   );
 }
+
+const Logo = styled.div`
+  width: 127px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  float: left;
+`;
+const H2 = styled.h2`
+  font-family: 'bm_hanna_pro';
+  color: #ffffff;
+  font-size: 1.4em;
+  margin-top: -17px;
+`;
