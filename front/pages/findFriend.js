@@ -45,6 +45,7 @@ export default function findFriend() {
       setData(data.concat(res.results));
       setLoading(false);
     });
+    return true;
   };
 
   return (
