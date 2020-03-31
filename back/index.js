@@ -1,17 +1,15 @@
 const express = require("express");
 const db = require("./models");
 
-const app = express();
+const userAPIRouter = require("./routes/user");
 
+const app = express();
 db.sequelize.sync();
 
-app.get("/", (req, res) => {
-  res.send("서버 작동!");
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.get("/about", (req, res) => {
-  res.send("hello about!");
-});
+app.use("/api/user", userAPIRouter);
 
 app.listen(4851, () => {
   console.log("server is running on http://localhost:4851");
