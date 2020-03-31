@@ -12,10 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     db.ChatRoom.hasMany(db.UserChatSession, {
       foreingKey: "roomId",
       sourceKey: "roomId",
+      as: "SessionHasUser",
     });
     db.ChatRoom.hasMany(db.Message, {
       foreingKey: "roomId",
       sourceKey: "roomId",
+      as: "ChatRoomHasMessage",
     });
   };
   return ChatRoom;

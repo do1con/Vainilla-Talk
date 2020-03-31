@@ -27,7 +27,9 @@ module.exports = (sequelize, DataTypes) => {
     db.User.hasMany(db.UserChatSession, {
       foreingKey: "userId",
       sourceKey: "userId",
+      as: "UserHasSession",
     });
+    db.User.belongsToMany(db.User, { through: "Friends", as: "Friend" });
   };
   return User;
 };

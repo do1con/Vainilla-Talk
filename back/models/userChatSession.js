@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         unique: true,
         allowNull: false,
-        autoIncrement: true,
       },
       roomId: {
         type: DataTypes.INTEGER,
@@ -24,9 +23,11 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   UserChatSession.associate = (db) => {
-    db.UserChatSession.belongsTo(db.User, {
+    db.UserChatSession.belongsToMany(db.User, {
       foreingKey: "userId",
       targetKey: "userId",
+      through: "UserChatList",
+      as: "UserChatJoined",
     });
     db.UserChatSession.belongsTo(db.ChatRoom, {
       foreingKey: "roomId",
