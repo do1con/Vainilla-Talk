@@ -66,7 +66,9 @@ export default function SignUpPage() {
               >
                 <Input />
               </Form.Item>
-              {signUpErrorReason && <p>{signUpErrorReason}</p>}
+              {signUpErrorReason && (
+                <p style={{ textAlign: 'center', color: 'red' }}>{signUpErrorReason}</p>
+              )}
               <Form.Item
                 label="닉네임"
                 name="userNickname"
