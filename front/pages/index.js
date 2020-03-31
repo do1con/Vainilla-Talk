@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
 import { Form, Input, Button, Checkbox } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 import { beanColor } from '../public/palette';
 import '../public/base.css';
 import '../public/style.css';
@@ -11,6 +12,7 @@ import 'antd/dist/antd.css';
 
 export default function MainPage() {
   const [loginRequest, setLoginRequest] = useState(false);
+
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
@@ -19,18 +21,19 @@ export default function MainPage() {
     wrapperCol: { offset: 8, span: 16 },
     labelCol: { span: 3, offset: 12 },
   };
-  const onFinish = (values) => {
+
+  const onFinish = useCallback((values) => {
     setLoginRequest(true);
     console.log('Success:', values);
     Router.push('/friendList');
-  };
-
-  const onFinishFailed = (errorInfo) => {
+  }, []);
+  const onFinishFailed = useCallback((errorInfo) => {
     console.log('Failed:', errorInfo);
-  };
+  }, []);
   const onClickSignUp = useCallback(() => {
     console.log('click sign up');
   }, []);
+
   return (
     <>
       <Head>
