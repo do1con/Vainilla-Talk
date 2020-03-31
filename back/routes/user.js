@@ -4,8 +4,9 @@ const passport = require("passport");
 const db = require("../models");
 
 const router = express.Router();
-router.post("/signUp", async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   // 회원가입
+  console.log("회원가입 요청이 왔습니다.");
   try {
     const exUser = await db.User.findOne({
       where: {
@@ -15,9 +16,9 @@ router.post("/signUp", async (req, res, next) => {
     if (exUser) {
       return res.status(403).send("이미 사용중인 아이디 입니다.");
     }
-    const hashedPassword = await bcrypt.hash(req.body.password, 11); // salt
+    const hashedPassword = await bcrypt.hash(req.body.userPassword, 11); // salt
     const newUser = await db.User.create({
-      nickname: req.body.nickname,
+      nickname: req.body.userNickname,
       userId: req.body.userId,
       password: hashedPassword,
     });

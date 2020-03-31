@@ -34,9 +34,11 @@ function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
 
-function* signUp() {
+function* signUp(action) {
+  console.log(action.data);
+  console.log('here');
   try {
-    // yield call(signUpAPI);
+    yield call(signUpAPI, action.data);
     yield delay(2000);
     yield put({
       type: LOG_IN_SUCCESS,

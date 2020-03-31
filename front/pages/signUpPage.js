@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Head from 'next/head';
+import Router from 'next/router';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Form, Input, Button, Checkbox } from 'antd';
+import { SIGN_UP_REQUEST } from '../reducers/user';
 import { beanColor } from '../public/palette';
 import '../public/base.css';
 import '../public/style.css';
 import 'antd/dist/antd.css';
 
 export default function SignUpPage() {
+  const dispatch = useDispatch();
+  const [userId, setUserId] = useState('');
+  const [userNickname, setUserNickname] = useState('');
+  const [userPassword, setUserPassword] = useState('');
+  const [userPasswordCheck, setUserPasswordCheck] = useState('');
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
@@ -16,14 +24,19 @@ export default function SignUpPage() {
     wrapperCol: { offset: 8, span: 16 },
     labelCol: { span: 3, offset: 12 },
   };
-  const onFinish = (values) => {
-    values.preventDefault();
-    console.log('Success:', values);
-  };
+  const onFinish = useCallback(
+    (values) => {
+      dispatch({
+        type: SIGN_UP_REQUEST,
+        data: values,
+      });
+    },
+    [dispatch, SIGN_UP_REQUEST]
+  );
 
-  const onFinishFailed = (errorInfo) => {
+  const onFinishFailed = useCallback((errorInfo) => {
     console.log('Failed:', errorInfo);
-  };
+  }, []);
 
   return (
     <>

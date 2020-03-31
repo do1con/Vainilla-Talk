@@ -1,3 +1,4 @@
+/* eslint-disable react/forbid-prop-types */
 // @ts-nocheck
 /* eslint-disable no-underscore-dangle */
 import React from 'react';
@@ -15,7 +16,6 @@ const VanillaTalk = ({ Component, store }) => {
     <Provider store={store}>
       <Head>
         <title>Vanilla-Talk!</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/antd/3.16.2/antd.css" />
       </Head>
       <Component />
     </Provider>
