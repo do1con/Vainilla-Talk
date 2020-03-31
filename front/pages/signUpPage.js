@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,10 +12,14 @@ import 'antd/dist/antd.css';
 
 export default function SignUpPage() {
   const dispatch = useDispatch();
-  const [userId, setUserId] = useState('');
-  const [userNickname, setUserNickname] = useState('');
-  const [userPassword, setUserPassword] = useState('');
-  const [userPasswordCheck, setUserPasswordCheck] = useState('');
+  const { isSigningUp, me, signUpErrorReason } = useSelector((state) => state.user);
+  useEffect(() => {
+    console.log(me);
+    if (me !== null) {
+      alert('회원가입 성공!');
+      Router.push('/');
+    }
+  }, [me && me.id]);
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
@@ -62,6 +66,7 @@ export default function SignUpPage() {
               >
                 <Input />
               </Form.Item>
+              {signUpErrorReason && <p>{signUpErrorReason}</p>}
               <Form.Item
                 label="닉네임"
                 name="userNickname"
@@ -116,7 +121,7 @@ export default function SignUpPage() {
                 <Checkbox>말썽 부리지 않을것을 약속합니다.</Checkbox>
               </Form.Item>
               <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={isSigningUp}>
                   회원가입
                 </Button>
               </Form.Item>

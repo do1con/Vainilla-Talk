@@ -91,6 +91,7 @@ export default (state = initialState, action) => {
         ...state,
         isSigningUp: false,
         isSignedUp: true,
+        me: action.data,
       };
     }
     case SIGN_UP_FAILURE: {
@@ -98,7 +99,7 @@ export default (state = initialState, action) => {
         ...state,
         isSignedUp: false,
         isSigningUp: false,
-        signUpErrorReason: action.error,
+        signUpErrorReason: action.data,
       };
     }
     default: {

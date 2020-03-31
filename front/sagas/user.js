@@ -35,18 +35,19 @@ function* watchLogin() {
 }
 
 function* signUp(action) {
-  console.log(action.data);
-  console.log('here');
   try {
-    yield call(signUpAPI, action.data);
-    yield delay(2000);
+    const result = yield call(signUpAPI, action.data);
+    console.log(result);
+    console.log('here');
+    console.log('here');
     yield put({
-      type: LOG_IN_SUCCESS,
+      type: SIGN_UP_SUCCESS,
     });
   } catch (e) {
     console.error(e);
     yield put({
-      type: LOG_IN_FAILURE,
+      type: SIGN_UP_FAILURE,
+      data: '이미 존재하는 아이디 입니다!',
     });
   }
 }
