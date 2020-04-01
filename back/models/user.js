@@ -2,10 +2,17 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
     "User",
     {
+      id: {
+        type: DataTypes.INTEGER,
+        unique: true,
+        allowNull: false,
+        autoIncrement: true,
+      },
       userId: {
         type: DataTypes.STRING(20),
         allowNull: false,
         unique: true,
+        primaryKey: true,
       },
       nickname: {
         type: DataTypes.STRING(20),
@@ -25,10 +32,11 @@ module.exports = (sequelize, DataTypes) => {
   User.associate = (db) => {
     db.User.hasMany(db.UserChatSession, {
       foreingKey: "userId",
-      sourceKey: "userId",
-      as: "UserHasSession",
     });
     db.User.belongsToMany(db.User, { through: "Friends", as: "Friend" });
+    db.User.hasMany(db.Message, {
+      foreingKey: "userId",
+    });
   };
   return User;
 };

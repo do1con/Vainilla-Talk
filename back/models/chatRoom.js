@@ -5,19 +5,16 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: true,
       primaryKey: true,
+      autoIncrement: true,
     },
   });
 
   ChatRoom.associate = (db) => {
     db.ChatRoom.hasMany(db.UserChatSession, {
       foreingKey: "roomId",
-      sourceKey: "roomId",
-      as: "SessionHasUser",
     });
     db.ChatRoom.hasMany(db.Message, {
       foreingKey: "roomId",
-      sourceKey: "roomId",
-      as: "ChatRoomHasMessage",
     });
   };
   return ChatRoom;

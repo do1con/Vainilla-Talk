@@ -9,17 +9,8 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true,
         primaryKey: true,
       },
-      userId: {
-        type: DataTypes.STRING(20),
-        allowNull: false,
-      },
-      roomId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      messageDate: {
-        type: DataTypes.DATE,
-        allowNull: false,
+      message: {
+        type: DataTypes.TEXT,
       },
     },
     {
@@ -29,7 +20,12 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Message.associate = (db) => {
-    db.Message.belongsTo(db.ChatRoom);
+    db.Message.belongsTo(db.User, {
+      foreingKey: "userId",
+    });
+    db.Message.belongsTo(db.ChatRoom, {
+      foreingKey: "roomId",
+    });
   };
   return Message;
 };
