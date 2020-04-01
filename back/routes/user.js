@@ -29,7 +29,7 @@ router.post("/", async (req, res, next) => {
     return next(error);
   }
 });
-router.post("/Login", (req, res) => {
+router.post("/login", (req, res) => {
   // 로그인
 });
 router.post("/Logout", (req, res) => {
