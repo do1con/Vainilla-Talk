@@ -16,13 +16,15 @@ function loginAPI(loginData) {
 }
 function* login(action) {
   try {
-    const result = yield call(loginAPI, action.data);
+    const { data } = yield call(loginAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      data: result,
+      data: {
+        nickname: data.nickname,
+      },
     });
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    console.error(error);
     yield put({
       type: LOG_IN_FAILURE,
     });

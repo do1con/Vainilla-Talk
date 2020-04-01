@@ -31,9 +31,6 @@ router.post("/", async (req, res, next) => {
 });
 router.post("/login", (req, res, next) => {
   // 로그인
-  console.log("로그인 요청이 왔습니다.");
-  console.log(req.body);
-  console.log("here");
   passport.authenticate("local", (error, user, info) => {
     if (error) {
       console.error(error);
