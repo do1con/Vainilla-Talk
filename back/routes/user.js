@@ -35,7 +35,6 @@ router.post("/login", (req, res, next) => {
   console.log(req.body);
   console.log("here");
   passport.authenticate("local", (error, user, info) => {
-    console.log(error, user, info);
     if (error) {
       console.error(error);
       return next(error);
@@ -54,7 +53,9 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 router.post("/Logout", (req, res) => {
-  // 로그아웃
+  req.logout();
+  req.session.destroy();
+  res.send("logout 성공");
 });
 router.post("/:id/edit", (req, res) => {
   // 회원정보 수정
