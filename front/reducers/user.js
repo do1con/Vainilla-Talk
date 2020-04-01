@@ -76,7 +76,14 @@ export default (state = initialState, action) => {
     case LOG_OUT_REQUEST: {
       return {
         ...state,
+        isLoggingOut: true,
+      };
+    }
+    case LOG_OUT_SUCCESS: {
+      return {
+        ...state,
         isLoggedIn: false,
+        isLoggingOut: false,
         me: null,
       };
     }
@@ -109,6 +116,12 @@ export default (state = initialState, action) => {
         ...state,
         justSignedUp: false,
         signUpErrorReason: null,
+      };
+    }
+    case LOAD_USER_SUCCESS: {
+      return {
+        ...state,
+        me: action.data,
       };
     }
     default: {

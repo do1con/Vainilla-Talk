@@ -7,6 +7,12 @@ import {
   SIGN_UP_REQUEST,
   SIGN_UP_SUCCESS,
   SIGN_UP_FAILURE,
+  LOG_OUT_REQUEST,
+  LOG_OUT_FAILURE,
+  LOG_OUT_SUCCESS,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE,
 } from '../reducers/user';
 
 axios.defaults.baseURL = 'http://localhost:4851/api/';
@@ -30,10 +36,61 @@ function* login(action) {
     });
   }
 }
-
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
+
+function logoutAPI() {
+  return axios.post(
+    '/user/logout',
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+}
+function* logout() {
+  try {
+    yield call(logoutAPI);
+    yield put({
+      type: LOG_OUT_SUCCESS,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: LOG_OUT_FAILURE,
+      data: error,
+    });
+  }
+}
+function* watchLogout() {
+  yield takeLatest(LOG_OUT_REQUEST, logout);
+}
+
+function loadUserAPI() {
+  return axios.get('/user/', {
+    withCredentials: true,
+  });
+}
+function* loadUser() {
+  try {
+    const { data } = yield call(loadUserAPI);
+    yield put({
+      type: LOAD_USER_SUCCESS,
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: LOAD_USER_FAILURE,
+      data: error,
+    });
+  }
+}
+function* watchLoadUser() {
+  yield takeLatest(LOAD_USER_REQUEST, loadUser);
+}
+
 function signUpAPI(signUpData) {
   return axios.post('/user/', signUpData);
 }
@@ -57,5 +114,5 @@ function* watchSignUp() {
 }
 
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchSignUp)]);
+  yield all([fork(watchLogin), fork(watchLogout), fork(watchSignUp), fork(watchLoadUser)]);
 }

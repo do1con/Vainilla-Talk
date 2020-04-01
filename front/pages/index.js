@@ -3,9 +3,9 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { SIGN_UP_ROUTE_INDEX, LOG_IN_REQUEST } from '../reducers/user';
+import { SIGN_UP_ROUTE_INDEX, LOG_IN_REQUEST, LOAD_USER_REQUEST } from '../reducers/user';
 import { beanColor } from '../public/palette';
 import '../public/base.css';
 import '../public/style.css';
@@ -14,22 +14,25 @@ import 'antd/dist/antd.css';
 export default function MainPage() {
   const dispatch = useDispatch();
   const [loginRequest, setLoginRequest] = useState(false);
-  const { justSignedUp } = useSelector((state) => state.user);
+  const { justSignedUp, me } = useSelector((state) => state.user);
 
-  const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 8 },
-  };
-  const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-    labelCol: { span: 3, offset: 12 },
-  };
-
+  useEffect(() => {
+    if (!me) {
+      dispatch({
+        type: LOAD_USER_REQUEST,
+      });
+    }
+  }, []);
   useEffect(() => {
     dispatch({
       type: SIGN_UP_ROUTE_INDEX,
     });
   }, [justSignedUp]);
+  useEffect(() => {
+    if (me) {
+      Router.push('/friendList');
+    }
+  });
 
   const onFinish = useCallback(
     (values) => {
@@ -39,6 +42,9 @@ export default function MainPage() {
         type: LOG_IN_REQUEST,
         data: values,
       });
+      if (me) {
+        Router.push('/friendList');
+      }
     },
     [dispatch]
   );
@@ -48,6 +54,15 @@ export default function MainPage() {
   const onClickSignUp = useCallback(() => {
     console.log('click sign up');
   }, []);
+
+  const layout = {
+    labelCol: { span: 8 },
+    wrapperCol: { span: 8 },
+  };
+  const tailLayout = {
+    wrapperCol: { offset: 8, span: 16 },
+    labelCol: { span: 3, offset: 12 },
+  };
 
   return (
     <>
@@ -103,19 +118,17 @@ const Container = styled.div`
   height: 100%;
   display: table;
 `;
-
 const H1 = styled.h1`
   text-align: center;
   font-family: 'bm_hanna_pro';
   color: ${beanColor};
   font-size: 2em;
+  padding-bottom: 25px;
 `;
-
 const FormContainer = styled.div`
   display: table-cell;
   vertical-align: middle;
 `;
-
 const FormContainer50 = styled.div`
   width: 50%;
   margin: 0 auto;

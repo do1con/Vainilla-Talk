@@ -1,23 +1,57 @@
-import React from 'react';
-import { Layout, Menu, Breadcrumb, Avatar } from 'antd';
-import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
+import React, { useEffect, useCallback } from 'react';
+import Link from 'next/link';
+import Router from 'next/router';
+import { Layout, Menu, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../public/base.css';
 import '../public/style.css';
+import { LOAD_USER_REQUEST, LOG_OUT_REQUEST } from '../reducers/user';
 
 const { Header, Content, Sider } = Layout;
 
 export default function BoardLayout(children) {
+  const dispatch = useDispatch();
+
+  const { me } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!me) {
+      Router.push('/');
+    }
+  });
+
+  const onClickLogout = useCallback(() => {
+    console.log('로그아웃 요청 옴');
+    dispatch({
+      type: LOG_OUT_REQUEST,
+    });
+  }, [dispatch, LOG_OUT_REQUEST]);
   return (
     <Layout style={{ height: '100%' }}>
       <Header className="header">
         <Logo>
-          <H2>Vanilla Talk!</H2>
+          <Link href="/">
+            <A>
+              <H2>Vanilla Talk!</H2>
+            </A>
+          </Link>
         </Logo>
         <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1">채팅</Menu.Item>
-          <Menu.Item key="2">친구 찾기</Menu.Item>
+          <Menu.Item key="1">
+            <Link href="/friendList">채팅</Link>
+          </Menu.Item>
+          <Menu.Item key="2">
+            <Link href="/findFriend">친구 찾기</Link>
+          </Menu.Item>
+          <Menu.Item key="3">
+            <Link href="/changeUserInfo">정보 수정</Link>
+          </Menu.Item>
+          <Menu.Item key="4" onClick={onClickLogout}>
+            로그아웃
+          </Menu.Item>
         </Menu>
       </Header>
       <Layout>
@@ -77,4 +111,7 @@ const H2 = styled.h2`
   color: #ffffff;
   font-size: 1.4em;
   margin-top: -17px;
+`;
+const A = styled.span`
+  cursor: pointer;
 `;
