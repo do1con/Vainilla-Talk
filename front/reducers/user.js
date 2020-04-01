@@ -15,6 +15,7 @@ export const initialState = {
   signUpErrorReason: '', // 회원가입 실패 사유
   me: null,
   userInfo: null, // 남의 정보
+  justSignedUp: false,
 };
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
@@ -32,6 +33,8 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
+
+export const SIGN_UP_ROUTE_INDEX = 'SIGN_UP_ROUTE_INDEX';
 
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
@@ -92,6 +95,7 @@ export default (state = initialState, action) => {
         isSigningUp: false,
         isSignedUp: true,
         me: action.data,
+        justSignedUp: true,
       };
     }
     case SIGN_UP_FAILURE: {
@@ -100,6 +104,13 @@ export default (state = initialState, action) => {
         isSignedUp: false,
         isSigningUp: false,
         signUpErrorReason: action.data,
+      };
+    }
+    case SIGN_UP_ROUTE_INDEX: {
+      return {
+        ...state,
+        justSignedUp: false,
+        signUpErrorReason: null,
       };
     }
     default: {

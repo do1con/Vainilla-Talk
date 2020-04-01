@@ -1,17 +1,20 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Router from 'next/router';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
+import { SIGN_UP_ROUTE_INDEX } from '../reducers/user';
 import { beanColor } from '../public/palette';
 import '../public/base.css';
 import '../public/style.css';
 import 'antd/dist/antd.css';
 
 export default function MainPage() {
+  const dispatch = useDispatch();
   const [loginRequest, setLoginRequest] = useState(false);
+  const { justSignedUp } = useSelector((state) => state.user);
 
   const layout = {
     labelCol: { span: 8 },
@@ -21,6 +24,12 @@ export default function MainPage() {
     wrapperCol: { offset: 8, span: 16 },
     labelCol: { span: 3, offset: 12 },
   };
+
+  useEffect(() => {
+    dispatch({
+      type: SIGN_UP_ROUTE_INDEX,
+    });
+  }, [justSignedUp]);
 
   const onFinish = useCallback((values) => {
     setLoginRequest(true);

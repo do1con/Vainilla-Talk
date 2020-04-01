@@ -12,14 +12,14 @@ import 'antd/dist/antd.css';
 
 export default function SignUpPage() {
   const dispatch = useDispatch();
-  const { isSigningUp, me, signUpErrorReason } = useSelector((state) => state.user);
+  const { isSigningUp, me, justSignedUp, signUpErrorReason } = useSelector((state) => state.user);
   useEffect(() => {
     console.log(me);
-    if (me !== null) {
+    if (justSignedUp) {
       alert('회원가입 성공!');
       Router.push('/');
     }
-  }, [me && me.id]);
+  }, [justSignedUp]);
   const layout = {
     labelCol: { span: 8 },
     wrapperCol: { span: 8 },
