@@ -8,6 +8,7 @@ const db = {};
 // @ts-ignore
 // eslint-disable-next-line prettier/prettier
 const sequelize = new Sequelize(config.database, config.username, config.password, config);
+
 db.User = require("./user")(sequelize, Sequelize);
 db.UserChatSession = require("./userChatSession")(sequelize, Sequelize);
 db.ChatRoom = require("./chatRoom")(sequelize, Sequelize);

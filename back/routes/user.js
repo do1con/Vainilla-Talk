@@ -39,17 +39,32 @@ router.post("/login", (req, res, next) => {
     if (info) {
       return res.status(401).send(info.reason);
     }
-    return req.login(user, (loginError) => {
+    return req.login(user, async (loginError) => {
       if (loginError) {
         return next(loginError);
       }
-      const filteredUser = { ...user };
-      delete filteredUser.password;
-      return res.json(user);
+      const fullUser = await db.User.findOne({
+        where: { id: user.id },
+        include: [
+          {
+            model: db.UserChatSession,
+            as: "UserHasSession",
+          },
+          {
+            model: db.User,
+            as: "Friend",
+            attributes: ["id"],
+          },
+        ],
+        attributes: ["id", "nickname", "userId"],
+      });
+      console.log(fullUser);
+      return res.json(fullUser);
     });
   })(req, res, next);
 });
 router.post("/Logout", (req, res) => {
+  // 로그아웃
   req.logout();
   req.session.destroy();
   res.send("logout 성공");

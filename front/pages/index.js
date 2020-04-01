@@ -80,11 +80,6 @@ export default function MainPage() {
               >
                 <Input.Password />
               </Form.Item>
-
-              <Form.Item {...tailLayout} name="remember" valuePropName="checked">
-                <Checkbox>나를 기억해줘!</Checkbox>
-              </Form.Item>
-
               <Form.Item {...tailLayout}>
                 <Button type="primary" htmlType="submit" loading={loginRequest}>
                   로그인

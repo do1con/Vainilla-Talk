@@ -1,7 +1,5 @@
 const dummyUser = {
   nickname: '킹성수',
-  Post: [],
-  friends: [],
   id: 1,
 };
 
@@ -62,7 +60,7 @@ export default (state = initialState, action) => {
         ...state,
         isLoggingIn: false,
         isLoggedIn: true,
-        me: dummyUser,
+        me: action.data,
         isLoading: false,
       };
     }

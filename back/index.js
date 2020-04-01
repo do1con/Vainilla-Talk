@@ -14,7 +14,12 @@ db.sequelize.sync();
 dotenv.config();
 passportConfig();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(morgan("dev"));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(
@@ -26,6 +31,7 @@ app.use(
       httpOnly: true,
       secure: false, // https쓸 떄 true로( 서버에 올라갔을 때 )
     },
+    name: "pageHistory",
   })
 );
 app.use(passport.initialize());

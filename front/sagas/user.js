@@ -12,16 +12,16 @@ import {
 axios.defaults.baseURL = 'http://localhost:4851/api/';
 
 function loginAPI(loginData) {
-  return axios.post('/user/login', loginData);
+  return axios.post('/user/login', loginData, {
+    withCredentials: true,
+  });
 }
 function* login(action) {
   try {
     const { data } = yield call(loginAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
-      data: {
-        nickname: data.nickname,
-      },
+      data: data,
     });
   } catch (error) {
     console.error(error);
