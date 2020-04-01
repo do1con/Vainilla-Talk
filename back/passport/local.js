@@ -8,7 +8,7 @@ module.exports = () => {
     new LocalStrategy(
       {
         usernameField: "userId", // 요것들은 프론트에서 보내는거, (req.body)
-        passwordField: "password",
+        passwordField: "userPassword",
       },
       async (userId, password, done) => {
         // id, password 받고 로그인전략 여기

@@ -7,10 +7,12 @@ const dotenv = require("dotenv");
 const passport = require("passport");
 const db = require("./models");
 const userAPIRouter = require("./routes/user");
+const passportConfig = require("./passport");
 
 const app = express();
 db.sequelize.sync();
 dotenv.config();
+passportConfig();
 
 app.use(cors());
 app.use(morgan("dev"));

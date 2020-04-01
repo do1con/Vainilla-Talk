@@ -29,8 +29,29 @@ router.post("/", async (req, res, next) => {
     return next(error);
   }
 });
-router.post("/login", (req, res) => {
+router.post("/login", (req, res, next) => {
   // 로그인
+  console.log("로그인 요청이 왔습니다.");
+  console.log(req.body);
+  console.log("here");
+  passport.authenticate("local", (error, user, info) => {
+    console.log(error, user, info);
+    if (error) {
+      console.error(error);
+      return next(error);
+    }
+    if (info) {
+      return res.status(401).send(info.reason);
+    }
+    return req.login(user, (loginError) => {
+      if (loginError) {
+        return next(loginError);
+      }
+      const filteredUser = { ...user };
+      delete filteredUser.password;
+      return res.json(user);
+    });
+  })(req, res, next);
 });
 router.post("/Logout", (req, res) => {
   // 로그아웃

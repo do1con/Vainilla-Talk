@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { Form, Input, Button, Checkbox } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
-import { SIGN_UP_ROUTE_INDEX } from '../reducers/user';
+import { SIGN_UP_ROUTE_INDEX, LOG_IN_REQUEST } from '../reducers/user';
 import { beanColor } from '../public/palette';
 import '../public/base.css';
 import '../public/style.css';
@@ -31,11 +31,17 @@ export default function MainPage() {
     });
   }, [justSignedUp]);
 
-  const onFinish = useCallback((values) => {
-    setLoginRequest(true);
-    console.log('Success:', values);
-    Router.push('/friendList');
-  }, []);
+  const onFinish = useCallback(
+    (values) => {
+      setLoginRequest(true);
+      console.log('Success:', values);
+      dispatch({
+        type: LOG_IN_REQUEST,
+        data: values,
+      });
+    },
+    [dispatch]
+  );
   const onFinishFailed = useCallback((errorInfo) => {
     console.log('Failed:', errorInfo);
   }, []);

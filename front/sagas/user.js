@@ -9,13 +9,14 @@ import {
   SIGN_UP_FAILURE,
 } from '../reducers/user';
 
-function loginAPI(loginData) {
-  return axios.post('/login', loginData);
-}
+axios.defaults.baseURL = 'http://localhost:4851/api/';
 
-function* login() {
+function loginAPI(loginData) {
+  return axios.post('/user/login', loginData);
+}
+function* login(action) {
   try {
-    yield call(loginAPI);
+    yield call(loginAPI, action.data);
     yield put({
       type: LOG_IN_SUCCESS,
     });
@@ -26,14 +27,13 @@ function* login() {
     });
   }
 }
-function signUpAPI(signUpData) {
-  return axios.post('http://localhost:4851/api/user/', signUpData);
-}
 
 function* watchLogin() {
   yield takeLatest(LOG_IN_REQUEST, login);
 }
-
+function signUpAPI(signUpData) {
+  return axios.post('/user/', signUpData);
+}
 function* signUp(action) {
   try {
     const result = yield call(signUpAPI, action.data);
