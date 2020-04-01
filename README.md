@@ -8,4 +8,4 @@ Vanilla Talk은 메신저 어플리케이션입니다.
 
 ## Stack
 
-HTML5, CSS3, Javascript, React, Next.js, Express, Redux(saga)
+HTML5, CSS3, Javascript, React, Next.js, Express, Redux(saga), MySQL
