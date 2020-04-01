@@ -30,6 +30,7 @@ app.use(
     cookie: {
       httpOnly: true,
       secure: false, // https쓸 떄 true로( 서버에 올라갔을 때 )
+      expires: new Date(Date.now() + 1000 * 60 * 60 * 24),
     },
     name: "pageHistory",
   })
