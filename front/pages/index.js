@@ -13,8 +13,7 @@ import 'antd/dist/antd.css';
 
 export default function MainPage() {
   const dispatch = useDispatch();
-  const [loginRequest, setLoginRequest] = useState(false);
-  const { justSignedUp, me } = useSelector((state) => state.user);
+  const { justSignedUp, me, isLoggingIn, logInErrorReason } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!me) {
@@ -36,7 +35,6 @@ export default function MainPage() {
 
   const onFinish = useCallback(
     (values) => {
-      setLoginRequest(true);
       console.log('Success:', values);
       dispatch({
         type: LOG_IN_REQUEST,
@@ -50,9 +48,6 @@ export default function MainPage() {
   );
   const onFinishFailed = useCallback((errorInfo) => {
     console.log('Failed:', errorInfo);
-  }, []);
-  const onClickSignUp = useCallback(() => {
-    console.log('click sign up');
   }, []);
 
   const layout = {
@@ -96,16 +91,19 @@ export default function MainPage() {
                 <Input.Password />
               </Form.Item>
               <Form.Item {...tailLayout}>
-                <Button type="primary" htmlType="submit" loading={loginRequest}>
+                <Button type="primary" htmlType="submit" loading={isLoggingIn}>
                   로그인
                 </Button>
-                <Link href="/signUpPage">
-                  <Button htmlType="button" onClick={onClickSignUp}>
-                    회원가입
-                  </Button>
-                </Link>
+                <Button htmlType="button">
+                  <Link href="/signUpPage">
+                    <a>회원가입</a>
+                  </Link>
+                </Button>
               </Form.Item>
             </Form>
+            {logInErrorReason ?? (
+              <p style={{ color: 'red', textAlign: 'center' }}>{logInErrorReason}</p>
+            )}
           </FormContainer50>
         </FormContainer>
       </Container>

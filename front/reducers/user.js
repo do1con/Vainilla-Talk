@@ -116,6 +116,7 @@ export default (state = initialState, action) => {
         ...state,
         justSignedUp: false,
         signUpErrorReason: null,
+        logInErrorReason: null,
       };
     }
     case LOAD_USER_SUCCESS: {

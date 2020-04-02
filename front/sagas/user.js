@@ -33,6 +33,7 @@ function* login(action) {
     console.error(error);
     yield put({
       type: LOG_IN_FAILURE,
+      error: '로그인 실패',
     });
   }
 }

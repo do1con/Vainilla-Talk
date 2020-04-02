@@ -1,21 +1,28 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
-import Head from 'next/head';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { Comment, Avatar, Tooltip, Form, Input, Button } from 'antd';
+import { SendOutlined } from '@ant-design/icons';
 import BoardLayout from '../components/boardLayout';
 
 export default function friendList() {
-  const userName = '김성수짱';
   const { TextArea } = Input;
+  const { me } = useSelector((state) => state.user);
+  const chatArea = useRef();
+
+  const onLoadChatArea = useCallback(() => {
+    chatArea.current.scroll({
+      behavior: 'smooth',
+      top: chatArea.current.offsetHeight * 3,
+    });
+  }, [chatArea]);
+
   return (
     <BoardLayout>
-      <Head>
-        <title>{userName}님, 안녕하세요!</title>
-      </Head>
       <ChatWrapper>
-        <ChatArea>
+        <ChatArea onLoad={onLoadChatArea} ref={chatArea}>
           <Comment
             author={<a>Han Solo</a>}
             avatar={
@@ -238,7 +245,7 @@ export default function friendList() {
           </Form.Item>
           <Form.Item>
             <Button htmlType="submit" type="primary">
-              발할라!
+              <SendOutlined />
             </Button>
           </Form.Item>
         </InputArea>
@@ -263,6 +270,7 @@ const ChatArea = styled.div`
   position: absolute;
   top: 0px;
   overflow-y: scroll;
+  scroll-behavior: smooth;
 `;
 
 const Chat = styled.p`

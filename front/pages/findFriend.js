@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import reqwest from 'reqwest';
@@ -14,6 +14,7 @@ export default function findFriend() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const [searchSelect, setSearchSelect] = useState('userId');
 
   const fetchData = (callback) => {
     reqwest({
@@ -48,6 +49,21 @@ export default function findFriend() {
     return true;
   };
 
+  const onSearch = useCallback(
+    (value) => {
+      console.log(value);
+      console.log(searchSelect);
+      console.log('hi');
+    },
+    [searchSelect]
+  );
+  const onChangeSearchSelect = useCallback(
+    (e) => {
+      setSearchSelect(e);
+    },
+    [setSearchSelect]
+  );
+
   return (
     <BoardLayout>
       <Head>
@@ -55,13 +71,17 @@ export default function findFriend() {
       </Head>
       <ChatWrapper>
         <Input.Group compact>
-          <Select defaultValue="userId" style={{ width: '20%' }}>
+          <Select
+            defaultValue={searchSelect}
+            style={{ width: '20%' }}
+            onChange={onChangeSearchSelect}
+          >
             <Option value="userId">ID로 찾기</Option>
             <Option value="userNickname">닉네임으로 찾기</Option>
           </Select>
           <Search
             placeholder="input search text"
-            onSearch={(value) => console.log(value)}
+            onSearch={onSearch}
             enterButton
             style={{ width: '80%' }}
           />

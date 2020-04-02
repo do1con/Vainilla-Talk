@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import Head from 'next/head';
 import Router from 'next/router';
+import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Form, Input, Button, Checkbox } from 'antd';
@@ -16,7 +17,7 @@ export default function SignUpPage() {
   useEffect(() => {
     console.log(me);
     if (justSignedUp) {
-      alert('회원가입 성공!');
+      alert('환영합니다!');
       Router.push('/');
     }
   }, [justSignedUp]);
@@ -49,7 +50,12 @@ export default function SignUpPage() {
       </Head>
       <Container>
         <FormContainer>
-          <H1>Welcome to Vanilla Talk!</H1>
+          <H1>
+            Welcome to&nbsp;
+            <Link href="/">
+              <a>Vanilla Talk!</a>
+            </Link>
+          </H1>
           <FormContainer50>
             <Form
               {...layout}
@@ -146,6 +152,7 @@ const H1 = styled.h1`
   font-family: 'bm_hanna_pro';
   color: ${beanColor};
   font-size: 2em;
+  padding-bottom: 25px;
 `;
 
 const FormContainer = styled.div`

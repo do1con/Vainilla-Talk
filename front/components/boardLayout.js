@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
 import { Layout, Menu, Avatar } from 'antd';
@@ -14,23 +14,28 @@ const { Header, Content, Sider } = Layout;
 
 export default function BoardLayout(children) {
   const dispatch = useDispatch();
-
+  const [currentUrl, setCurrentUrl] = useState(Router.router.pathname);
   const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (!me) {
-      Router.push('/');
+      dispatch({
+        type: LOAD_USER_REQUEST,
+      });
+      if (!me) {
+        Router.push('/');
+      }
     }
-  });
+  }, []);
 
   const onClickLogout = useCallback(() => {
-    console.log('로그아웃 요청 옴');
     dispatch({
       type: LOG_OUT_REQUEST,
     });
   }, [dispatch, LOG_OUT_REQUEST]);
+
   return (
-    <Layout style={{ height: '100%' }}>
+    <Layout style={{ height: '100%', overflow: 'hidden' }}>
       <Header className="header">
         <Logo>
           <Link href="/">
@@ -39,15 +44,21 @@ export default function BoardLayout(children) {
             </A>
           </Link>
         </Logo>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-          <Menu.Item key="1">
-            <Link href="/friendList">채팅</Link>
+        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[currentUrl]}>
+          <Menu.Item key="/friendList">
+            <Link href="/friendList">
+              <a>채팅</a>
+            </Link>
           </Menu.Item>
-          <Menu.Item key="2">
-            <Link href="/findFriend">친구 찾기</Link>
+          <Menu.Item key="/findFriend">
+            <Link href="/findFriend">
+              <a>친구 찾기</a>
+            </Link>
           </Menu.Item>
-          <Menu.Item key="3">
-            <Link href="/changeUserInfo">정보 수정</Link>
+          <Menu.Item key="/changeUserInfo">
+            <Link href="/changeUserInfo">
+              <a>정보 수정</a>
+            </Link>
           </Menu.Item>
           <Menu.Item key="4" onClick={onClickLogout}>
             로그아웃
@@ -55,34 +66,38 @@ export default function BoardLayout(children) {
         </Menu>
       </Header>
       <Layout>
-        <Sider width={200} className="site-layout-background" breakpoint="lg" collapsedWidth="0">
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['open']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-          >
-            <Menu.Item key="open">
-              <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
-              &nbsp;광 장
-            </Menu.Item>
-            <Menu.Item key="1">
-              <Avatar>박</Avatar> 박호석
-            </Menu.Item>
-            <Menu.Item key="2">
-              <Avatar>이</Avatar> 이광민
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Avatar>노</Avatar> 노주선
-            </Menu.Item>
-            <Menu.Item key="4">
-              <Avatar>강</Avatar> 강현우
-            </Menu.Item>
-            <Menu.Item key="5">
-              <Avatar>최</Avatar> 최효훈
-            </Menu.Item>
-          </Menu>
-        </Sider>
+        {currentUrl === '/friendList' ? (
+          <Sider width={200} className="site-layout-background" breakpoint="lg" collapsedWidth="0">
+            <Menu
+              mode="inline"
+              defaultSelectedKeys={['open']}
+              defaultOpenKeys={['sub1']}
+              style={{ height: '100%', borderRight: 0 }}
+            >
+              <Menu.Item key="open">
+                <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
+                &nbsp;광 장
+              </Menu.Item>
+              <Menu.Item key="1">
+                <Avatar>박</Avatar> 박호석
+              </Menu.Item>
+              <Menu.Item key="2">
+                <Avatar>이</Avatar> 이광민
+              </Menu.Item>
+              <Menu.Item key="3">
+                <Avatar>노</Avatar> 노주선
+              </Menu.Item>
+              <Menu.Item key="4">
+                <Avatar>강</Avatar> 강현우
+              </Menu.Item>
+              <Menu.Item key="5">
+                <Avatar>최</Avatar> 최효훈
+              </Menu.Item>
+            </Menu>
+          </Sider>
+        ) : (
+          ''
+        )}
         <Layout style={{ padding: '0 24px 24px' }}>
           <Content
             className="site-layout-background"
