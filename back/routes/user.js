@@ -6,6 +6,8 @@ const db = require("../models");
 
 const router = express.Router();
 
+const { Op } = Sequelize;
+
 router.get("/", (req, res, next) => {
   // 유저 정보 로드
   try {
@@ -107,6 +109,13 @@ router.post("/searchFriend", async (req, res, next) => {
         order: Sequelize.literal("rand()"),
         limit: 10,
         attributes: ["userId", "nickname"],
+        where: {
+          [Op.not]: [
+            {
+              userId: req.body.reqUser,
+            },
+          ],
+        },
       });
       console.log(foundRandomUsers);
       return res.status(200).json(foundRandomUsers);

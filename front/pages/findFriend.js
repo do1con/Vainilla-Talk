@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
-import reqwest from 'reqwest';
-import InfiniteScroll from 'react-infinite-scroller';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Select, List, message, Avatar, Spin } from 'antd';
 import BoardLayout from '../components/boardLayout';
@@ -10,7 +8,6 @@ import { SEARCH_FRIEND_REQUEST } from '../reducers/user';
 
 const { Search } = Input;
 const { Option } = Select;
-const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 export default function findFriend() {
   const dispatch = useDispatch();
@@ -18,43 +15,20 @@ export default function findFriend() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [searchSelect, setSearchSelect] = useState('userId');
-  const { isSearchingFriend, foundFriendList } = useSelector((state) => state.user);
-
-  const fetchData = (callback) => {
-    reqwest({
-      url: fakeDataUrl,
-      type: 'json',
-      method: 'get',
-      contentType: 'application/json',
-      success: (res) => {
-        callback(res);
-      },
-    });
-  };
+  const { isSearchingFriend, foundFriendList, me } = useSelector((state) => state.user);
 
   useEffect(() => {
-    fetchData((res) => {
-      setData(res.results);
-    });
-  }, []);
-  useEffect(() => {
-    console.log(foundFriendList);
-  });
-
-  const handleInfiniteOnLoad = () => {
-    setLoading(true);
-    if (data.length > 14) {
-      message.warning('Infinite List loaded all');
-      setHasMore(false);
-      setLoading(false);
-      return false;
+    if (me) {
+      dispatch({
+        type: SEARCH_FRIEND_REQUEST,
+        data: {
+          where: searchSelect,
+          value: '',
+          reqUser: me.userId,
+        },
+      });
     }
-    fetchData((res) => {
-      setData(data.concat(res.results));
-      setLoading(false);
-    });
-    return true;
-  };
+  }, []);
 
   const onSearch = useCallback(
     (value) => {
@@ -66,6 +40,7 @@ export default function findFriend() {
         data: {
           where: searchSelect,
           value: value,
+          reqUser: me.userId,
         },
       });
     },
@@ -77,6 +52,9 @@ export default function findFriend() {
     },
     [setSearchSelect]
   );
+  const onClickAskFriend = useCallback((askFriendId) => {
+    console.log(askFriendId);
+  });
 
   return (
     <BoardLayout>
@@ -103,13 +81,7 @@ export default function findFriend() {
         </Input.Group>
         <HorizontalLine />
         <div className="demo-infinite-container">
-          <InfiniteScroll
-            initialLoad={false}
-            pageStart={0}
-            loadMore={handleInfiniteOnLoad}
-            hasMore={!loading && hasMore}
-            useWindow={false}
-          >
+          {foundFriendList && (
             <List
               dataSource={foundFriendList}
               renderItem={(item) => (
@@ -119,7 +91,9 @@ export default function findFriend() {
                     title={item.nickname}
                     description={item.userId}
                   />
-                  <Button type="button">친구 요청</Button>
+                  <Button type="button" onClick={() => onClickAskFriend(item.userId)}>
+                    친구 요청
+                  </Button>
                 </List.Item>
               )}
             >
@@ -129,7 +103,7 @@ export default function findFriend() {
                 </div>
               )}
             </List>
-          </InfiniteScroll>
+          )}
         </div>
       </ChatWrapper>
     </BoardLayout>
