@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const Sequelize = require("sequelize");
 const db = require("../models");
 
 const router = express.Router();
@@ -93,6 +94,50 @@ router.post("/Logout", (req, res) => {
 router.post("/:id/edit", (req, res) => {
   // 회원정보 수정
   // /api/user/:id/follow
+});
+
+router.post("/searchFriend", async (req, res, next) => {
+  // 친구 찾기 (친구 검색)
+  try {
+    console.log("친구찾기 요청이 왔습니다.");
+    console.log(req.body);
+    if (req.body.value === "") {
+      // 검색어 없이 요청했을 경우 : 랜덤 레코드 10개
+      const foundRandomUsers = await db.User.findAll({
+        order: Sequelize.literal("rand()"),
+        limit: 10,
+        attributes: ["userId", "nickname"],
+      });
+      console.log(foundRandomUsers);
+      return res.status(200).json(foundRandomUsers);
+    }
+    if (req.body.where === "userId") {
+      // id로 검색 했을 때.
+      const foundUser = await db.User.findOne({
+        where: {
+          userId: req.body.value,
+        },
+        attributes: ["userId", "nickname"],
+      });
+      console.log(foundUser);
+      return res.status(200).json(foundUser);
+    }
+    if (req.body.where === "userNickname") {
+      // 닉네임으로 검색 했을 때.
+      const foundUser = await db.User.findAll({
+        where: {
+          nickname: req.body.value,
+        },
+        attributes: ["userId", "nickname"],
+      });
+      console.log(foundUser);
+      return res.status(200).json(foundUser);
+    }
+    return res.status(401).send("정상적인 요청이 아닙니다.");
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
 });
 
 router.post("/:id/addFriend/:id", (req, res) => {

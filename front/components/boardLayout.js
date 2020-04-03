@@ -14,10 +14,11 @@ const { Header, Content, Sider } = Layout;
 
 export default function BoardLayout(children) {
   const dispatch = useDispatch();
-  const [currentUrl, setCurrentUrl] = useState(Router.router.pathname);
+  const [currentUrl, setCurrentUrl] = useState('');
   const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
+    setCurrentUrl(Router.router.pathname);
     if (!me) {
       dispatch({
         type: LOAD_USER_REQUEST,

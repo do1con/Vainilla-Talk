@@ -14,6 +14,8 @@ export const initialState = {
   me: null,
   userInfo: null, // 남의 정보
   justSignedUp: false,
+  isSearchingFriend: false,
+  foundFriendList: null,
 };
 
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
@@ -31,6 +33,10 @@ export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
+
+export const SEARCH_FRIEND_REQUEST = 'SEARCH_FRIEND_REQUEST';
+export const SEARCH_FRIEND_SUCCESS = 'SEARCH_FRIEND_SUCCESS';
+export const SEARCH_FRIEND_FAILURE = 'SEARCH_FRIEND_FAILURE';
 
 export const SIGN_UP_ROUTE_INDEX = 'SIGN_UP_ROUTE_INDEX';
 
@@ -123,6 +129,26 @@ export default (state = initialState, action) => {
       return {
         ...state,
         me: action.data,
+      };
+    }
+    case SEARCH_FRIEND_REQUEST: {
+      return {
+        ...state,
+        isSearchingFriend: true,
+      };
+    }
+    case SEARCH_FRIEND_SUCCESS: {
+      return {
+        ...state,
+        foundFriendList: action.data,
+        isSearchingFriend: false,
+      };
+    }
+    case SEARCH_FRIEND_FAILURE: {
+      return {
+        ...state,
+        foundFriendList: null,
+        isSearchingFriend: false,
       };
     }
     default: {

@@ -3,18 +3,22 @@ import Head from 'next/head';
 import styled from 'styled-components';
 import reqwest from 'reqwest';
 import InfiniteScroll from 'react-infinite-scroller';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, Select, List, message, Avatar, Spin } from 'antd';
 import BoardLayout from '../components/boardLayout';
+import { SEARCH_FRIEND_REQUEST } from '../reducers/user';
 
 const { Search } = Input;
 const { Option } = Select;
 const fakeDataUrl = 'https://randomuser.me/api/?results=5&inc=name,gender,email,nat&noinfo';
 
 export default function findFriend() {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [searchSelect, setSearchSelect] = useState('userId');
+  const { isSearchingFriend, foundFriendList } = useSelector((state) => state.user);
 
   const fetchData = (callback) => {
     reqwest({
@@ -33,6 +37,9 @@ export default function findFriend() {
       setData(res.results);
     });
   }, []);
+  useEffect(() => {
+    console.log(foundFriendList);
+  });
 
   const handleInfiniteOnLoad = () => {
     setLoading(true);
@@ -54,6 +61,13 @@ export default function findFriend() {
       console.log(value);
       console.log(searchSelect);
       console.log('hi');
+      dispatch({
+        type: SEARCH_FRIEND_REQUEST,
+        data: {
+          where: searchSelect,
+          value: value,
+        },
+      });
     },
     [searchSelect]
   );
@@ -84,6 +98,7 @@ export default function findFriend() {
             onSearch={onSearch}
             enterButton
             style={{ width: '80%' }}
+            loading={isSearchingFriend}
           />
         </Input.Group>
         <HorizontalLine />
@@ -96,17 +111,15 @@ export default function findFriend() {
             useWindow={false}
           >
             <List
-              dataSource={data}
+              dataSource={foundFriendList}
               renderItem={(item) => (
                 <List.Item key={item.id}>
                   <List.Item.Meta
-                    avatar={
-                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                    }
-                    title={<a href="https://ant.design">{item.name.last}</a>}
-                    description={item.email}
+                    avatar={<Avatar>{item.nickname[0]}</Avatar>}
+                    title={item.nickname}
+                    description={item.userId}
                   />
-                  <div>Content</div>
+                  <Button type="button">친구 요청</Button>
                 </List.Item>
               )}
             >
@@ -133,11 +146,16 @@ const ChatWrapper = styled.div`
   padding: 5%;
   position: relative;
 `;
-
 const HorizontalLine = styled.hr`
   display: block;
   width: 100%;
   height: 1px;
   background-color: #000000;
   margin: 20px 0 20px;
+`;
+const Button = styled.button`
+  border: 0;
+  background-color: #ffffff;
+  color: blue;
+  cursor: pointer;
 `;

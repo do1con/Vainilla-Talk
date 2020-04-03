@@ -1,4 +1,14 @@
-import { all, fork, takeLatest, takeEvery, call, put, take, delay } from 'redux-saga/effects';
+import {
+  all,
+  fork,
+  takeLatest,
+  takeEvery,
+  call,
+  put,
+  take,
+  delay,
+  putResolve,
+} from 'redux-saga/effects';
 import axios from 'axios';
 import {
   LOG_IN_REQUEST,
@@ -13,6 +23,9 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
+  SEARCH_FRIEND_REQUEST,
+  SEARCH_FRIEND_SUCCESS,
+  SEARCH_FRIEND_FAILURE,
 } from '../reducers/user';
 
 axios.defaults.baseURL = 'http://localhost:4851/api/';
@@ -109,11 +122,37 @@ function* signUp(action) {
     });
   }
 }
-
 function* watchSignUp() {
   yield takeLatest(SIGN_UP_REQUEST, signUp);
 }
 
+function searchFriendAPI(searchData) {
+  return axios.post('/user/searchFriend/', searchData);
+}
+function* searchFriend(action) {
+  try {
+    const { data } = yield call(searchFriendAPI, action.data);
+    yield put({
+      type: SEARCH_FRIEND_SUCCESS,
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: SEARCH_FRIEND_FAILURE,
+    });
+  }
+}
+function* watchSearchFriend() {
+  yield takeLatest(SEARCH_FRIEND_REQUEST, searchFriend);
+}
+
 export default function* userSaga() {
-  yield all([fork(watchLogin), fork(watchLogout), fork(watchSignUp), fork(watchLoadUser)]);
+  yield all([
+    fork(watchLogin),
+    fork(watchLogout),
+    fork(watchSignUp),
+    fork(watchLoadUser),
+    fork(watchSearchFriend),
+  ]);
 }
