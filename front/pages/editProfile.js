@@ -9,7 +9,7 @@ import { SEARCH_FRIEND_REQUEST, ASK_FRIEND_REQUEST, setCurrentPage } from '../re
 const { Search } = Input;
 const { Option } = Select;
 
-export default function findFriend() {
+export default function editProfile() {
   const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -18,7 +18,7 @@ export default function findFriend() {
   const { isSearchingFriend, foundFriendList, me } = useSelector((state) => state.user);
 
   useEffect(() => {
-    dispatch(setCurrentPage('/findFriend'));
+    dispatch(setCurrentPage('/editProfile'));
     if (me) {
       dispatch({
         type: SEARCH_FRIEND_REQUEST,

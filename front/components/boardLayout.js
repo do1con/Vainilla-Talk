@@ -16,11 +16,9 @@ const { Submenu } = Menu;
 
 export default function BoardLayout(children) {
   const dispatch = useDispatch();
-  const [currentUrl, setCurrentUrl] = useState('');
-  const { me } = useSelector((state) => state.user);
+  const { me, currentPage } = useSelector((state) => state.user);
 
   useEffect(() => {
-    setCurrentUrl(Router.router.pathname);
     console.log(me);
     if (!me) {
       dispatch({
@@ -57,7 +55,12 @@ export default function BoardLayout(children) {
             </A>
           </Link>
         </Logo>
-        <Menu theme="dark" mode="horizontal" defaultSelectedKeys={[currentUrl]}>
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={[currentPage]}
+          selectedKeys={[currentPage]}
+        >
           <Menu.Item key="/friendList">
             <Link href="/friendList">
               <a>채팅</a>
@@ -68,8 +71,8 @@ export default function BoardLayout(children) {
               <a>친구 찾기</a>
             </Link>
           </Menu.Item>
-          <Menu.Item key="/changeUserInfo">
-            <Link href="/changeUserInfo">
+          <Menu.Item key="/editProfile">
+            <Link href="/editProfile">
               <a>정보 수정</a>
             </Link>
           </Menu.Item>
@@ -79,7 +82,7 @@ export default function BoardLayout(children) {
         </Menu>
       </Header>
       <Layout>
-        {currentUrl === '/friendList' ? (
+        {currentPage === '/friendList' ? (
           <Sider width={220} className="site-layout-background" breakpoint="lg" collapsedWidth="0">
             <Menu
               mode="inline"

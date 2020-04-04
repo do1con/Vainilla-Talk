@@ -2,15 +2,21 @@
 import React, { useEffect, useCallback, useState, useRef } from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Comment, Avatar, Tooltip, Form, Input, Button } from 'antd';
 import { SendOutlined } from '@ant-design/icons';
 import BoardLayout from '../components/boardLayout';
+import { setCurrentPage } from '../reducers/user';
 
 export default function friendList() {
+  const dispatch = useDispatch();
   const { TextArea } = Input;
   const { me } = useSelector((state) => state.user);
   const chatArea = useRef();
+
+  useEffect(() => {
+    dispatch(setCurrentPage('/friendList'));
+  }, []);
 
   const onLoadChatArea = useCallback(() => {
     chatArea.current.scroll({
@@ -240,14 +246,10 @@ export default function friendList() {
           />
         </ChatArea>
         <InputArea>
-          <Form.Item>
-            <TextArea rows={2} className="noresize" />
-          </Form.Item>
-          <Form.Item>
-            <Button htmlType="submit" type="primary">
-              <SendOutlined />
-            </Button>
-          </Form.Item>
+          <TextArea rows={1} className="noresize" style={{ marginBottom: '10px' }} />
+          <Button htmlType="submit" type="primary">
+            <SendOutlined />
+          </Button>
         </InputArea>
       </ChatWrapper>
     </BoardLayout>
@@ -263,6 +265,7 @@ const ChatWrapper = styled.div`
   box-sizing: content-box;
   padding: 5%;
   position: relative;
+  overflow: hidden;
 `;
 const ChatArea = styled.div`
   width: 90%;
@@ -282,6 +285,7 @@ const Chat = styled.p`
 const InputArea = styled.div`
   width: 90%;
   position: absolute;
-  bottom: 15%;
-  height: 10%;
+  bottom: 5%;
+  height: 20%;
+  overflow: hidden;
 `;

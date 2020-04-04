@@ -1,4 +1,5 @@
 export const initialState = {
+  currentPage: '',
   isLoggedIn: false, // 로그인 여부
   isLoggingOut: false, // 로그아웃 시도 중
   isLoggingIn: false, // 로그인 시도 중
@@ -13,6 +14,7 @@ export const initialState = {
   foundFriendList: null,
 };
 
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
@@ -36,6 +38,10 @@ export const ACCEPT_FRIEND_SUCCESS = 'ACCEPT_FRIEND_SUCCESS';
 export const ACCEPT_FRIEND_FAILURE = 'ACCEPT_FRIEND_FAILURE';
 export const SIGN_UP_ROUTE_INDEX = 'SIGN_UP_ROUTE_INDEX';
 
+export const setCurrentPage = (data) => ({
+  type: SET_CURRENT_PAGE,
+  data: data,
+});
 export const loginRequestAction = (data) => ({
   type: LOG_IN_REQUEST,
   data,
@@ -50,6 +56,12 @@ export const signUpRequestAction = (data) => ({
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_CURRENT_PAGE: {
+      return {
+        ...state,
+        currentPage: action.data,
+      };
+    }
     case LOG_IN_REQUEST: {
       return {
         ...state,
