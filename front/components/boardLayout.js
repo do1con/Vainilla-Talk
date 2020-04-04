@@ -125,21 +125,13 @@ export default function BoardLayout(children) {
                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                 &nbsp;광 장
               </Menu.Item>
-              <Menu.Item key="11">
-                <Avatar>박</Avatar> 박호석
-              </Menu.Item>
-              <Menu.Item key="22">
-                <Avatar>이</Avatar> 이광민
-              </Menu.Item>
-              <Menu.Item key="33">
-                <Avatar>노</Avatar> 노주선
-              </Menu.Item>
-              <Menu.Item key="44">
-                <Avatar>강</Avatar> 강현우
-              </Menu.Item>
-              <Menu.Item key="55">
-                <Avatar>최</Avatar> 최효훈
-              </Menu.Item>
+              {me.Friend !== null
+                ? me.Friend.map((data) => (
+                    <Menu.Item key="data.userId">
+                      <Avatar>{data.nickname[0]}</Avatar> {data.nickname}
+                    </Menu.Item>
+                  ))
+                : '친구가 아직 없네요..ㅠㅠ'}
             </Menu>
           </Sider>
         ) : null}
