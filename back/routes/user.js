@@ -90,12 +90,12 @@ router.post("/login", (req, res, next) => {
             {
               model: db.User,
               as: "Friend",
-              attributes: ["id"],
+              attributes: ["id", "userId", "nickname"],
             },
             {
               model: db.User,
               as: "AskFriend",
-              attributes: ["id"],
+              attributes: ["id", "userId", "nickname"],
             },
           ],
           attributes: ["id", "nickname", "userId"],
@@ -191,10 +191,27 @@ router.post("/:userId/addFriend/:friendId", async (req, res, next) => {
         userId: req.params.friendId,
       },
     });
-    await result.addAskFriend(req.params.userId);
+    return await result.addAskFriend(req.params.userId);
   } catch (error) {
     console.error(error);
-    next(error);
+    return next(error);
+  }
+});
+
+router.post("/acceptFriend", async (req, res, next) => {
+  // 친구 승락
+  try {
+    console.log("친구승락 요청이 왔습니다.");
+    const result = await db.User.findOne({
+      where: {
+        userId: req.body.userId,
+      },
+    });
+    await result.removeAskFriend(req.body.friendId);
+    return await result.addFriend(req.body.friendId);
+  } catch (error) {
+    console.error(error);
+    return next(error);
   }
 });
 

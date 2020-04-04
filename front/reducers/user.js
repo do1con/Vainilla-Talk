@@ -1,8 +1,3 @@
-const dummyUser = {
-  nickname: '킹성수',
-  id: 1,
-};
-
 export const initialState = {
   isLoggedIn: false, // 로그인 여부
   isLoggingOut: false, // 로그아웃 시도 중
@@ -21,27 +16,24 @@ export const initialState = {
 export const SIGN_UP_REQUEST = 'SIGN_UP_REQUEST';
 export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
-
 export const LOG_IN_REQUEST = 'LOG_IN_REQUEST';
 export const LOG_IN_SUCCESS = 'LOG_IN_SUCCESS';
 export const LOG_IN_FAILURE = 'LOG_IN_FAILURE';
-
 export const LOG_OUT_REQUEST = 'LOG_OUT_REQUEST';
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS';
 export const LOG_OUT_FAILURE = 'LOG_OUT_FAILURE';
-
 export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
-
 export const SEARCH_FRIEND_REQUEST = 'SEARCH_FRIEND_REQUEST';
 export const SEARCH_FRIEND_SUCCESS = 'SEARCH_FRIEND_SUCCESS';
 export const SEARCH_FRIEND_FAILURE = 'SEARCH_FRIEND_FAILURE';
-
 export const ASK_FRIEND_REQUEST = 'ASK_FRIEND_REQUEST';
 export const ASK_FRIEND_SUCCESS = 'ASK_FRIEND_SUCCESS';
 export const ASK_FRIEND_FAILURE = 'ASK_FRIEND_FAILURE';
-
+export const ACCEPT_FRIEND_REQUEST = 'ACCEPT_FRIEND_REQUEST';
+export const ACCEPT_FRIEND_SUCCESS = 'ACCEPT_FRIEND_SUCCESS';
+export const ACCEPT_FRIEND_FAILURE = 'ACCEPT_FRIEND_FAILURE';
 export const SIGN_UP_ROUTE_INDEX = 'SIGN_UP_ROUTE_INDEX';
 
 export const loginRequestAction = (data) => ({

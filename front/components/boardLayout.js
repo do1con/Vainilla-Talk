@@ -9,7 +9,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
 import '../public/base.css';
 import '../public/style.css';
-import { LOAD_USER_REQUEST, LOG_OUT_REQUEST } from '../reducers/user';
+import { LOAD_USER_REQUEST, LOG_OUT_REQUEST, ACCEPT_FRIEND_REQUEST } from '../reducers/user';
 
 const { Header, Content, Sider } = Layout;
 const { Submenu } = Menu;
@@ -37,6 +37,15 @@ export default function BoardLayout(children) {
       type: LOG_OUT_REQUEST,
     });
   }, [dispatch, LOG_OUT_REQUEST]);
+  const onClickAcceptFriend = useCallback((userId) => {
+    dispatch({
+      type: ACCEPT_FRIEND_REQUEST,
+      data: {
+        userId: me.userId,
+        friendId: userId,
+      },
+    });
+  }, []);
 
   return (
     <Layout style={{ height: '100%', overflow: 'hidden' }}>
@@ -95,7 +104,11 @@ export default function BoardLayout(children) {
                           ID: {data.AskFriends.AskFriendUserId}
                         </span>
                         <br />
-                        <Button size="small" type="primary">
+                        <Button
+                          size="small"
+                          type="primary"
+                          onClick={() => onClickAcceptFriend(data.AskFriends.AskFriendUserId)}
+                        >
                           <CheckOutlined />
                           수락
                         </Button>
