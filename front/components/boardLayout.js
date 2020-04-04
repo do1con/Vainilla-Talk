@@ -127,7 +127,7 @@ export default function BoardLayout(children) {
               </Menu.Item>
               {me.Friend !== null
                 ? me.Friend.map((data) => (
-                    <Menu.Item key="data.userId">
+                    <Menu.Item key={data.userId}>
                       <Avatar>{data.nickname[0]}</Avatar> {data.nickname}
                     </Menu.Item>
                   ))
