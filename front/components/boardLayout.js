@@ -2,8 +2,8 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
-import { Layout, Menu, Avatar } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Layout, Menu, Avatar, Button } from 'antd';
+import { UserOutlined, CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import 'antd/dist/antd.css';
@@ -12,6 +12,7 @@ import '../public/style.css';
 import { LOAD_USER_REQUEST, LOG_OUT_REQUEST } from '../reducers/user';
 
 const { Header, Content, Sider } = Layout;
+const { Submenu } = Menu;
 
 export default function BoardLayout(children) {
   const dispatch = useDispatch();
@@ -70,13 +71,43 @@ export default function BoardLayout(children) {
       </Header>
       <Layout>
         {currentUrl === '/friendList' ? (
-          <Sider width={200} className="site-layout-background" breakpoint="lg" collapsedWidth="0">
+          <Sider width={220} className="site-layout-background" breakpoint="lg" collapsedWidth="0">
             <Menu
               mode="inline"
               defaultSelectedKeys={['open']}
               defaultOpenKeys={['sub1']}
-              style={{ height: '100%', borderRight: 0 }}
+              style={{ height: '100%', borderRight: 0, top: 0 }}
             >
+              {me.Askfriend !== null &&
+                me.AskFriend.map((data) => {
+                  if (data.AskFriends.UserUserId === me.userId) {
+                    return (
+                      <Menu.Item
+                        key={data.AskFriends.id}
+                        inlineCollapsed={false}
+                        style={{
+                          height: '75px',
+                          textOverflow: 'clip',
+                        }}
+                        disabled
+                      >
+                        <span style={{ color: '#787878' }}>
+                          ID: {data.AskFriends.AskFriendUserId}
+                        </span>
+                        <br />
+                        <Button size="small" type="primary">
+                          <CheckOutlined />
+                          수락
+                        </Button>
+                        <Button size="small">
+                          <CloseOutlined />
+                          거절
+                        </Button>
+                      </Menu.Item>
+                    );
+                  }
+                  return null;
+                })}
               <Menu.Item key="open">
                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                 &nbsp;광 장
@@ -96,17 +127,6 @@ export default function BoardLayout(children) {
               <Menu.Item key="55">
                 <Avatar>최</Avatar> 최효훈
               </Menu.Item>
-              {me.Askfriend !== null &&
-                me.AskFriend.map((data, index) => {
-                  if (data.AskFriends.UserUserId === me.userId) {
-                    return (
-                      <Menu.Item key={data.AskFriends.id}>
-                        {data.AskFriends.AskFriendUserId}
-                      </Menu.Item>
-                    );
-                  }
-                  return null;
-                })}
             </Menu>
           </Sider>
         ) : null}

@@ -14,6 +14,13 @@
 .ant-comment-me .ant-comment-avatar {
   margin-left: 30px;
 }
+.ant-menu.ant-menu-light.ant-menu-root.ant-menu-inline {
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.ant-menu-item-disabled {
+  cursor: default;
+}
 
 /*
   공통 클래스
