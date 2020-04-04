@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Select, List, message, Avatar, Spin } from 'antd';
 import BoardLayout from '../components/boardLayout';
-import { SEARCH_FRIEND_REQUEST } from '../reducers/user';
+import { SEARCH_FRIEND_REQUEST, ASK_FRIEND_REQUEST } from '../reducers/user';
 
 const { Search } = Input;
 const { Option } = Select;
@@ -54,6 +54,13 @@ export default function findFriend() {
   );
   const onClickAskFriend = useCallback((askFriendId) => {
     console.log(askFriendId);
+    dispatch({
+      type: ASK_FRIEND_REQUEST,
+      data: {
+        userId: me.userId,
+        friendId: askFriendId,
+      },
+    });
   });
 
   return (

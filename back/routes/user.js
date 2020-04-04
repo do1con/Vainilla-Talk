@@ -73,6 +73,11 @@ router.post("/login", (req, res, next) => {
               as: "Friend",
               attributes: ["id"],
             },
+            {
+              model: db.User,
+              as: "AskFriend",
+              attributes: ["id"],
+            },
           ],
           attributes: ["id", "nickname", "userId"],
         });
@@ -149,9 +154,25 @@ router.post("/searchFriend", async (req, res, next) => {
   }
 });
 
-router.post("/:id/addFriend/:id", (req, res) => {
-  // 친구 추가
-  // /api/user/:id/follow
+router.post("/:userId/addFriend/:friendId", async (req, res, next) => {
+  // 친구 추가 요청, 첫번째가 요청자, 두번째가 요청받은사람
+  try {
+    console.log("친구추가 요청이 왔습니다.");
+    console.log(req.params);
+    const result = await db.User.findOne({
+      where: {
+        userId: req.params.userId,
+      },
+    });
+    console.log(result);
+    await result.addAskFriend(req.params.friendId);
+    console.log("여기");
+    console.log(db.AskFriends);
+    console.log("여기2");
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 router.delete("/:id/addFriend/:id", (req, res) => {

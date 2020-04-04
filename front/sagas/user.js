@@ -26,6 +26,9 @@ import {
   SEARCH_FRIEND_REQUEST,
   SEARCH_FRIEND_SUCCESS,
   SEARCH_FRIEND_FAILURE,
+  ASK_FRIEND_REQUEST,
+  ASK_FRIEND_SUCCESS,
+  ASK_FRIEND_FAILURE,
 } from '../reducers/user';
 
 axios.defaults.baseURL = 'http://localhost:4851/api/';
@@ -147,6 +150,27 @@ function* watchSearchFriend() {
   yield takeLatest(SEARCH_FRIEND_REQUEST, searchFriend);
 }
 
+function askFriendApi(askFriendData) {
+  return axios.post(`/user/${askFriendData.userId}/addFriend/${askFriendData.friendId}`);
+}
+function* askFriend(action) {
+  try {
+    const { data } = yield call(askFriendApi, action.data);
+    yield put({
+      type: ASK_FRIEND_SUCCESS,
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: ASK_FRIEND_FAILURE,
+    });
+  }
+}
+function* watchAskFriend() {
+  yield takeLatest(ASK_FRIEND_REQUEST, askFriend);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogin),
@@ -154,5 +178,6 @@ export default function* userSaga() {
     fork(watchSignUp),
     fork(watchLoadUser),
     fork(watchSearchFriend),
+    fork(watchAskFriend),
   ]);
 }
