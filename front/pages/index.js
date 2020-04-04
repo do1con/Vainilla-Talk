@@ -16,13 +16,6 @@ export default function MainPage() {
   const { justSignedUp, me, isLoggingIn, logInErrorReason } = useSelector((state) => state.user);
 
   useEffect(() => {
-    if (!me) {
-      dispatch({
-        type: LOAD_USER_REQUEST,
-      });
-    }
-  }, []);
-  useEffect(() => {
     dispatch({
       type: SIGN_UP_ROUTE_INDEX,
     });

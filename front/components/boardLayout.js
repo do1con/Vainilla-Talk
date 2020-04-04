@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 import React, { useEffect, useCallback, useState } from 'react';
 import Link from 'next/link';
 import Router from 'next/router';
@@ -19,15 +20,16 @@ export default function BoardLayout(children) {
 
   useEffect(() => {
     setCurrentUrl(Router.router.pathname);
+    console.log(me);
     if (!me) {
       dispatch({
         type: LOAD_USER_REQUEST,
       });
       if (!me) {
-        Router.push('/');
+        location.href = '/';
       }
     }
-  }, []);
+  });
 
   const onClickLogout = useCallback(() => {
     dispatch({
@@ -79,26 +81,35 @@ export default function BoardLayout(children) {
                 <Avatar style={{ backgroundColor: '#87d068' }} icon={<UserOutlined />} />
                 &nbsp;광 장
               </Menu.Item>
-              <Menu.Item key="1">
+              <Menu.Item key="11">
                 <Avatar>박</Avatar> 박호석
               </Menu.Item>
-              <Menu.Item key="2">
+              <Menu.Item key="22">
                 <Avatar>이</Avatar> 이광민
               </Menu.Item>
-              <Menu.Item key="3">
+              <Menu.Item key="33">
                 <Avatar>노</Avatar> 노주선
               </Menu.Item>
-              <Menu.Item key="4">
+              <Menu.Item key="44">
                 <Avatar>강</Avatar> 강현우
               </Menu.Item>
-              <Menu.Item key="5">
+              <Menu.Item key="55">
                 <Avatar>최</Avatar> 최효훈
               </Menu.Item>
+              {me.Askfriend !== null &&
+                me.AskFriend.map((data, index) => {
+                  if (data.AskFriends.UserUserId === me.userId) {
+                    return (
+                      <Menu.Item key={data.AskFriends.id}>
+                        {data.AskFriends.AskFriendUserId}
+                      </Menu.Item>
+                    );
+                  }
+                  return null;
+                })}
             </Menu>
           </Sider>
-        ) : (
-          ''
-        )}
+        ) : null}
         <Layout style={{ padding: '0 24px 24px' }}>
           <Content
             className="site-layout-background"

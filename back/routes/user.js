@@ -8,13 +8,32 @@ const router = express.Router();
 
 const { Op } = Sequelize;
 
-router.get("/", (req, res, next) => {
+router.get("/", async (req, res, next) => {
   // 유저 정보 로드
   try {
     if (!req.user) {
       return res.status(401).send("로그인을 하지 않았습니다.");
     }
-    return res.json(req.user);
+    const user = await db.User.findOne({
+      where: { id: req.user.id },
+      include: [
+        {
+          model: db.UserChatSession,
+        },
+        {
+          model: db.User,
+          as: "Friend",
+          attributes: ["id"],
+        },
+        {
+          model: db.User,
+          as: "AskFriend",
+          attributes: ["id"],
+        },
+      ],
+      attributes: ["id", "nickname", "userId"],
+    });
+    return res.json(user);
   } catch (error) {
     console.error(error);
     return next(error);
@@ -131,6 +150,11 @@ router.post("/searchFriend", async (req, res, next) => {
         where: {
           userId: req.body.value,
         },
+        [Op.not]: [
+          {
+            userId: req.body.reqUser,
+          },
+        ],
         attributes: ["userId", "nickname"],
       });
       console.log(foundUser);
@@ -142,6 +166,11 @@ router.post("/searchFriend", async (req, res, next) => {
         where: {
           nickname: req.body.value,
         },
+        [Op.not]: [
+          {
+            userId: req.body.reqUser,
+          },
+        ],
         attributes: ["userId", "nickname"],
       });
       console.log(foundUser);
@@ -157,18 +186,12 @@ router.post("/searchFriend", async (req, res, next) => {
 router.post("/:userId/addFriend/:friendId", async (req, res, next) => {
   // 친구 추가 요청, 첫번째가 요청자, 두번째가 요청받은사람
   try {
-    console.log("친구추가 요청이 왔습니다.");
-    console.log(req.params);
     const result = await db.User.findOne({
       where: {
-        userId: req.params.userId,
+        userId: req.params.friendId,
       },
     });
-    console.log(result);
-    await result.addAskFriend(req.params.friendId);
-    console.log("여기");
-    console.log(db.AskFriends);
-    console.log("여기2");
+    await result.addAskFriend(req.params.userId);
   } catch (error) {
     console.error(error);
     next(error);
