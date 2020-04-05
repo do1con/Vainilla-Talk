@@ -2,117 +2,120 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Head from 'next/head';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { Input, Select, List, message, Avatar, Spin } from 'antd';
+import { Input, Select, List, message, Avatar, Spin, Form, Checkbox, Button } from 'antd';
 import BoardLayout from '../components/boardLayout';
-import { SEARCH_FRIEND_REQUEST, ASK_FRIEND_REQUEST, setCurrentPage } from '../reducers/user';
+import {
+  SEARCH_FRIEND_REQUEST,
+  ASK_FRIEND_REQUEST,
+  setCurrentPage,
+  EDIT_PROFILE_REQUEST,
+} from '../reducers/user';
 
 const { Search } = Input;
 const { Option } = Select;
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 8 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 8, span: 16 },
+  labelCol: { span: 3, offset: 12 },
+};
 
 export default function editProfile() {
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true);
-  const [searchSelect, setSearchSelect] = useState('userId');
-  const { isSearchingFriend, foundFriendList, me } = useSelector((state) => state.user);
+  const [checkChangePassword, setCheckChangePassword] = useState(false);
+  const { me } = useSelector((state) => state.user);
 
   useEffect(() => {
     dispatch(setCurrentPage('/editProfile'));
-    if (me) {
-      dispatch({
-        type: SEARCH_FRIEND_REQUEST,
-        data: {
-          where: searchSelect,
-          value: '',
-          reqUser: me.userId,
-        },
-      });
-    }
   }, []);
 
-  const onSearch = useCallback(
-    (value) => {
-      console.log(value);
-      console.log(searchSelect);
-      console.log('hi');
+  const onChangeEditPassword = useCallback(() => {
+    console.log(checkChangePassword);
+    setCheckChangePassword(!checkChangePassword);
+  }, [checkChangePassword, setCheckChangePassword]);
+  const onFinishEdit = useCallback(
+    (data) => {
+      console.log(data);
       dispatch({
-        type: SEARCH_FRIEND_REQUEST,
+        type: EDIT_PROFILE_REQUEST,
         data: {
-          where: searchSelect,
-          value: value,
-          reqUser: me.userId,
+          ...data,
+          userId: me.userId,
         },
       });
     },
-    [searchSelect]
+    [dispatch]
   );
-  const onChangeSearchSelect = useCallback(
-    (e) => {
-      setSearchSelect(e);
-    },
-    [setSearchSelect]
-  );
-  const onClickAskFriend = useCallback((askFriendId) => {
-    console.log(askFriendId);
-    dispatch({
-      type: ASK_FRIEND_REQUEST,
-      data: {
-        userId: me.userId,
-        friendId: askFriendId,
-      },
-    });
-  });
 
   return (
     <BoardLayout>
       <Head>
-        <title>친구찾기 - Vanilla Talk!</title>
+        <title>정보수정 - Vanilla Talk!</title>
       </Head>
       <ChatWrapper>
-        <Input.Group compact>
-          <Select
-            defaultValue={searchSelect}
-            style={{ width: '20%' }}
-            onChange={onChangeSearchSelect}
+        <Form {...layout} name="login" initialValues={{ remember: true }} onFinish={onFinishEdit}>
+          <Form.Item label="ID" name="userId">
+            <Input defaultValue={me.userId} disabled />
+          </Form.Item>
+          <Form.Item
+            label="닉네임"
+            name="nickname"
+            rules={[{ required: !checkChangePassword, message: '닉네임을 입력해주세요!' }]}
+            hasFeedback
           >
-            <Option value="userId">ID로 찾기</Option>
-            <Option value="userNickname">닉네임으로 찾기</Option>
-          </Select>
-          <Search
-            placeholder="input search text"
-            onSearch={onSearch}
-            enterButton
-            style={{ width: '80%' }}
-            loading={isSearchingFriend}
-          />
-        </Input.Group>
-        <HorizontalLine />
-        <div style={{ overflowY: 'scroll', height: '80%' }}>
-          {foundFriendList && (
-            <List
-              dataSource={foundFriendList}
-              renderItem={(item) => (
-                <List.Item key={item.id}>
-                  <List.Item.Meta
-                    avatar={<Avatar>{item.nickname[0]}</Avatar>}
-                    title={item.nickname}
-                    description={item.userId}
-                  />
-                  <Button type="button" onClick={() => onClickAskFriend(item.userId)}>
-                    친구 요청
-                  </Button>
-                </List.Item>
-              )}
-            >
-              {loading && hasMore && (
-                <div className="demo-loading-container">
-                  <Spin />
-                </div>
-              )}
-            </List>
-          )}
-        </div>
+            <Input defaultValue={me.nickname} />
+          </Form.Item>
+          <Form.Item {...tailLayout} name="changePassword" valuePropName="checked">
+            <Checkbox onChange={onChangeEditPassword}>비밀번호 변경</Checkbox>
+          </Form.Item>
+          <Form.Item
+            label="기존 비밀번호"
+            name="currentPassword"
+            rules={[{ required: checkChangePassword, message: '비밀번호를 입력해주세요.' }]}
+            hasFeedback
+          >
+            <Input.Password disabled={!checkChangePassword} />
+          </Form.Item>
+          <Form.Item
+            label="비밀번호"
+            name="userPassword"
+            rules={[{ required: checkChangePassword, message: '비밀번호를 입력해주세요.' }]}
+            hasFeedback
+          >
+            <Input.Password disabled={!checkChangePassword} />
+          </Form.Item>
+          <Form.Item
+            label="비밀번호 확인"
+            name="userPasswordCheck"
+            dependencies={['userPassword']}
+            hasFeedback
+            rules={[
+              {
+                required: checkChangePassword,
+                message: '비밀번호를 한번 더 입력해주세요.',
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue('userPassword') === value) {
+                    return Promise.resolve();
+                  }
+                  // eslint-disable-next-line prefer-promise-reject-errors
+                  return Promise.reject('비밀번호가 일치하지 않습니다.');
+                },
+              }),
+            ]}
+            style={{ marginBottom: '0px' }}
+          >
+            <Input.Password disabled={!checkChangePassword} />
+          </Form.Item>
+          <Form.Item {...tailLayout}>
+            <Button type="primary" htmlType="submit" style={{ marginTop: '10px' }}>
+              수정
+            </Button>
+          </Form.Item>
+        </Form>
       </ChatWrapper>
     </BoardLayout>
   );
@@ -127,7 +130,8 @@ const ChatWrapper = styled.div`
   box-sizing: content-box;
   padding: 5%;
   position: relative;
-  overflow: hidden;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 const HorizontalLine = styled.hr`
   display: block;
@@ -135,10 +139,4 @@ const HorizontalLine = styled.hr`
   height: 1px;
   background-color: #000000;
   margin: 20px 0 20px;
-`;
-const Button = styled.button`
-  border: 0;
-  background-color: #ffffff;
-  color: blue;
-  cursor: pointer;
 `;

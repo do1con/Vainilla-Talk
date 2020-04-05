@@ -32,6 +32,9 @@ import {
   ACCEPT_FRIEND_REQUEST,
   ACCEPT_FRIEND_FAILURE,
   ACCEPT_FRIEND_SUCCESS,
+  EDIT_PROFILE_REQUEST,
+  EDIT_PROFILE_SUCCESS,
+  EDIT_PROFILE_FAILURE,
 } from '../reducers/user';
 
 axios.defaults.baseURL = 'http://localhost:4851/api/';
@@ -195,6 +198,27 @@ function* watchAcceptFriend() {
   yield takeLatest(ACCEPT_FRIEND_REQUEST, acceptFriend);
 }
 
+function editProfileApi(editProfileData) {
+  return axios.put(`/user/${editProfileData.userId}/editProfile`, editProfileData);
+}
+function* editProfile(action) {
+  try {
+    const { data } = yield call(editProfileApi, action.data);
+    yield put({
+      type: EDIT_PROFILE_SUCCESS,
+      data: data,
+    });
+  } catch (error) {
+    console.error(error);
+    yield put({
+      type: EDIT_PROFILE_FAILURE,
+    });
+  }
+}
+function* watchEditProfile() {
+  yield takeLatest(EDIT_PROFILE_REQUEST, editProfile);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchLogin),
@@ -204,5 +228,6 @@ export default function* userSaga() {
     fork(watchSearchFriend),
     fork(watchAskFriend),
     fork(watchAcceptFriend),
+    fork(watchEditProfile),
   ]);
 }

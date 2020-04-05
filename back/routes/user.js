@@ -215,6 +215,66 @@ router.post("/acceptFriend", async (req, res, next) => {
   }
 });
 
+router.patch("/editProfile", async (req, res, next) => {
+  // 프로필 수정
+  try {
+    console.log("프로필 수정 요청이 왔습니다.");
+    console.log(req.body);
+    if (req.body.nickname === null && req.body.changePassword === true) {
+      // 비밀번호만 바꾸는 경우
+      const hashedPassword = await bcrypt.hash(req.body.userPassword, 11); // salt
+      const user = await db.User.update(
+        {
+          password: hashedPassword,
+        },
+        {
+          where: {
+            userId: req.body.userId,
+          },
+        }
+      );
+      return res.send(user);
+    }
+    if (
+      req.body.nickname !== null &&
+      (req.body.changePassword === false || req.body.changePassword === null)
+    ) {
+      // 닉네임만 바꾸는 경우
+      const user = await db.User.update(
+        {
+          nickname: req.body.nickname,
+        },
+        {
+          where: {
+            userId: req.body.userId,
+          },
+        }
+      );
+      return res.send(user);
+    }
+    if (req.body.nickname !== null && req.body.changePassword === true) {
+      // 둘다 바꾸는 경우
+      const hashedPassword = await bcrypt.hash(req.body.userPassword, 11); // salt
+      const user = await db.User.update(
+        {
+          password: hashedPassword,
+          nickname: req.body.nickname,
+        },
+        {
+          where: {
+            userId: req.body.userId,
+          },
+        }
+      );
+      return res.send(user);
+    }
+    return res.status(401).send("정상적인 요청이 아닙니다.");
+  } catch (error) {
+    console.error(error);
+    return next(error);
+  }
+});
+
 router.delete("/:id/addFriend/:id", (req, res) => {
   // 친구 삭제
   // /api/user/:id/follow
