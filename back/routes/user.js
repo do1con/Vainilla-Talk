@@ -146,7 +146,7 @@ router.post("/searchFriend", async (req, res, next) => {
     }
     if (req.body.where === "userId") {
       // id로 검색 했을 때.
-      const foundUser = await db.User.findOne({
+      const foundUser = await db.User.findAll({
         where: {
           userId: req.body.value,
         },
@@ -215,13 +215,15 @@ router.post("/acceptFriend", async (req, res, next) => {
   }
 });
 
-router.patch("/editProfile", async (req, res, next) => {
+router.put("/editProfile", async (req, res, next) => {
   // 프로필 수정
   try {
     console.log("프로필 수정 요청이 왔습니다.");
     console.log(req.body);
+    console.log("고고");
     if (req.body.nickname === null && req.body.changePassword === true) {
       // 비밀번호만 바꾸는 경우
+      console.log("비밀번호만 바꿉니다.");
       const hashedPassword = await bcrypt.hash(req.body.userPassword, 11); // salt
       const user = await db.User.update(
         {
@@ -240,6 +242,7 @@ router.patch("/editProfile", async (req, res, next) => {
       (req.body.changePassword === false || req.body.changePassword === null)
     ) {
       // 닉네임만 바꾸는 경우
+      console.log("닉네임만 바꿉니다.");
       const user = await db.User.update(
         {
           nickname: req.body.nickname,
@@ -254,6 +257,7 @@ router.patch("/editProfile", async (req, res, next) => {
     }
     if (req.body.nickname !== null && req.body.changePassword === true) {
       // 둘다 바꾸는 경우
+      console.log("닉네임과 비밀번호 둘 다 바꿉니다.");
       const hashedPassword = await bcrypt.hash(req.body.userPassword, 11); // salt
       const user = await db.User.update(
         {
@@ -266,6 +270,7 @@ router.patch("/editProfile", async (req, res, next) => {
           },
         }
       );
+      console.log("이상합니다.");
       return res.send(user);
     }
     return res.status(401).send("정상적인 요청이 아닙니다.");

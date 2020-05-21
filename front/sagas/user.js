@@ -199,7 +199,7 @@ function* watchAcceptFriend() {
 }
 
 function editProfileApi(editProfileData) {
-  return axios.put(`/user/${editProfileData.userId}/editProfile`, editProfileData);
+  return axios.put('/user/editProfile', editProfileData);
 }
 function* editProfile(action) {
   try {
