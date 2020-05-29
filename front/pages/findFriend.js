@@ -19,17 +19,13 @@ export default function findFriend() {
 
   useEffect(() => {
     dispatch(setCurrentPage('/findFriend'));
-    if (me) {
-      dispatch({
-        type: SEARCH_FRIEND_REQUEST,
-        data: {
-          where: searchSelect,
-          value: '',
-          reqUser: me.userId,
-        },
-      });
-    }
   }, []);
+
+  useEffect(() => {
+    console.log('here');
+    console.log(foundFriendList);
+    console.log(me.Friend);
+  });
 
   const onSearch = useCallback(
     (value) => {
@@ -99,9 +95,16 @@ export default function findFriend() {
                     title={item.nickname}
                     description={item.userId}
                   />
-                  <Button type="button" onClick={() => onClickAskFriend(item.userId)}>
-                    친구 요청
-                  </Button>
+                  {me.Friend.some((friend) => {
+                    if (friend.userId === item.userId) console.log(friend.userId === item.userId);
+                    return friend.userId === item.userId;
+                  }) ? (
+                    '이미 친구입니다.'
+                  ) : (
+                    <Button type="button" onClick={() => onClickAskFriend(item.userId)}>
+                      친구 요청
+                    </Button>
+                  )}
                 </List.Item>
               )}
             >
